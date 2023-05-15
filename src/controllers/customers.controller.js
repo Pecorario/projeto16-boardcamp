@@ -29,7 +29,7 @@ export async function getCustomerById(req, res) {
           SELECT * FROM customers WHERE id=$1;
         `, [id]);
 
-    if (customer.rowCount === 0) return res.sendStatus(404);
+    if (resCustomers.rowCount === 0) return res.sendStatus(404);
 
     const customers = resCustomers.rows.map(row => {
       const newRow = {
