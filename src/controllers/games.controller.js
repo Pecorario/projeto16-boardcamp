@@ -29,10 +29,6 @@ export async function getGameById(req, res) {
 export async function createGame(req, res) {
   const { name, image, stockTotal, pricePerDay } = req.body;
   try {
-    if (Number(stockTotal) <= 0 || Number(pricePerDay) <= 0) {
-      return res.sendStatus(400);
-    }
-
     const gameExists = await db.query(
       `
         SELECT * FROM games WHERE name=$1;
