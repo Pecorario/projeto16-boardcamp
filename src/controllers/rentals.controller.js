@@ -17,6 +17,7 @@ export async function getAllRentals(req, res) {
       const newObj = {
         ...row,
         rentDate: dayjs(row.rentDate).format('YYYY-MM-DD'),
+        returnDate: row.returnDate === null ? row.returnDate : dayjs(row.returnDate).format('YYYY-MM-DD'),
         customer: {
           id: row.customerId,
           name: row.customerName,
