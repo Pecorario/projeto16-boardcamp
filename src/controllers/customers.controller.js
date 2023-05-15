@@ -25,13 +25,13 @@ export async function getCustomerById(req, res) {
   const { id } = req.params;
 
   try {
-    const customer = await db.query(`
+    const resCustomers = await db.query(`
           SELECT * FROM customers WHERE id=$1;
         `, [id]);
 
     if (customer.rowCount === 0) return res.sendStatus(404);
 
-    const formatedData = customer.rows.map(row => {
+    const customers = resCustomers.rows.map(row => {
       const newRow = {
         ...row,
         birthday: dayjs(row.birthday).format('YYYY-MM-DD'),
@@ -40,7 +40,7 @@ export async function getCustomerById(req, res) {
       return newRow;
     })
 
-    return res.send(formatedData);
+    return res.send(customers[0]);
   } catch (error) {
     return res.status(500).send(error.message);
   }
@@ -48,6 +48,7 @@ export async function getCustomerById(req, res) {
 
 export async function createCustomer(req, res) {
   const { name, phone, cpf, birthday } = req.body;
+
   try {
     const customerExists = await db.query(
       `
